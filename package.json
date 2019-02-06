@@ -1,6 +1,6 @@
 {
   "name": "use-event-target",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "React hook for EventTarget, Attach event & listener without any side effect.",
   "main": "src/index.js",
   "peerDependencies": {
