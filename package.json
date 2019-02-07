@@ -1,6 +1,6 @@
 {
   "name": "use-event-target",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React hook for EventTarget, Attach event & listener without any side effect.",
   "main": "src/index.js",
   "peerDependencies": {
@@ -8,5 +8,6 @@
     "react-dom": "^16.8.0"
   },
   "author": "@realdennis",
+  "keywords":["react-hooks","useEvent","useEventTarget","useWindow","useFileReader","react"],
   "license": "MIT"
 }
