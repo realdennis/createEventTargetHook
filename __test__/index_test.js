@@ -39,15 +39,12 @@ describe("[Basic Test]", () => {
         expect(testTarget.eventlist.length).equal(1);
         expect(testTarget.eventlist[0].event).equal("click");
         expect(testTarget.eventlist[0].callback).equal(testCb);
-        //test when unmounted
-        return () => {
-            expect(testTarget.eventlist.length).equal(0);
-        };
       }, []);
       return null;
     };
     let testRenderer = TestRenderer.create(<TestCase1 />);
     testRenderer.unmount();
+    expect(testTarget.eventlist.length).equal(0);
     done();
   });
 });
