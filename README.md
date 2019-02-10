@@ -1,5 +1,11 @@
 # useEventTarget
 
+[![GitHub license](https://img.shields.io/github/license/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/issues)
+[![GitHub stars](https://img.shields.io/github/stars/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/network)
+[![Build Status](https://travis-ci.org/realdennis/useEventTarget.svg?branch=master)](https://travis-ci.org/realdennis/useEventTarget)
+
 React hook for EventTarget, Attach event & listener without any side effect.
 One hook for one eventTarget's event.
 
@@ -39,7 +45,7 @@ const useImage = useEventTarget(new Image());
 const demo = () => {
   const [$img, hookEvent] = useImage();
   const getSize = () => {
-     /* code to get image size*/
+    /* code to get image size*/
     hookEvent(); // -> Explicitly clear this hook event state.
   };
   const onClick = () => {
