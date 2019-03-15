@@ -10,17 +10,32 @@
 
 [Demo](https://codesandbox.io/s/j2w4n92219)
 
----
-
 讓你無憂憂慮註冊事件，匿名函數也好，不想清理也罷，反正我幫你清掉。
-
 One hook for one eventTarget's event.
 
+
+----
+
+### 使用高階函數創造毫無副作用的 useResize
+
+```javascript
+// useResize.js
+import useEventTarget from 'use-event-target';
+const useWindow = useEventTarget(window);
+
+export default (callback) => useWindow('resize',callback);
+```
+Watch this [useResize](https://codesandbox.io/s/73m4z11vp6)
+
+---
+
+### 直接在函數組件使用無副作用的事件掛載
 ```javascript
 import useEventTarget from 'use-event-target';
 const useImage = useEventTarget(new Image());
 const demo=()=>{
   useImage(/* Event name */ , /* Callback */ , /* Options */);
+  return (<p>I am demo component</p>);
 }
 ```
 
@@ -179,7 +194,7 @@ import useEventTarget from 'use-event-target';
 const component = () => {
   const useWindow = useEventTarget(window);
   const [_, hookEvent] = useWindow('click', onClick);
-  const onClick = () => {
+  function onClick = () => {
     hookEvent('resize', () => console.log('resize trigger'));
     // After click, hook will clean up `click` event and attach `resize`
   };
