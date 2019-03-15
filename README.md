@@ -20,10 +20,14 @@ One hook for one eventTarget's event.
 
 ```javascript
 // useResize.js
-import useEventTarget from 'use-event-target';
+import useEventTarget from "use-event-target";
 const useWindow = useEventTarget(window);
+export default callback => {
+  const [$window, hookOfResize] = useWindow("resize", callback);
+  const resizeOff = () => hookOfResize();
+  return resizeOff;
+};
 
-export default (callback) => useWindow('resize',callback);
 ```
 Watch this [useResize](https://codesandbox.io/s/73m4z11vp6)
 
@@ -34,7 +38,7 @@ Watch this [useResize](https://codesandbox.io/s/73m4z11vp6)
 import useEventTarget from 'use-event-target';
 const useImage = useEventTarget(new Image());
 const demo=()=>{
-  useImage(/* Event name */ , /* Callback */ , /* Options */);
+  useImage('load' , ()=>console.log('image loaded!') , /* Options */);
   return (<p>I am demo component</p>);
 }
 ```
