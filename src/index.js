@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 const useEventTarget = Target => (...args) => {
-  const [event, attach] = useState(args);
+  const off = () => Target.removeEventListener(...args);
   useEffect(() => {
-    if (event.length < 2) return;
-    Target.addEventListener(...event);
-    return () => Target.removeEventListener(...event);
-  }, [event]);
-  return [Target, (...args) => attach(args)];
+    Target.addEventListener(...args);
+    return off;
+  }, []);
+  return [Target, off];
 };
 export default useEventTarget;
