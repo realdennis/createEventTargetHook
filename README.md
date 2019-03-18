@@ -23,8 +23,7 @@ One hook for one eventTarget's event.
 import useEventTarget from "use-event-target";
 const useWindow = useEventTarget(window);
 export default callback => {
-  const [$window, hookOfResize] = useWindow("resize", callback);
-  const resizeOff = () => hookOfResize();
+  const [$window, resizeOff] = useWindow("resize", callback);
   return resizeOff;
 };
 
@@ -110,7 +109,7 @@ useEventTarget 主要是丟進去 EventTarget ，並且製造出 customHooks ，
 我們先假設 useImage 已經製造出來。
 
 ```javascript
-const [$img, hookEvent] = useImage('load', () => console.log('load'));
+const [$img, loadOff] = useImage('load', () => console.log('load'));
 ```
 
 ### \$img
@@ -119,7 +118,7 @@ const [$img, hookEvent] = useImage('load', () => console.log('load'));
 
 ### hookEvent
 
-你可以透過 hookEvent 重置你要掛載的事件，用法有兩種：
+你可以透過 hookEvent 重置你要掛載的事件，用法:
 
 1. 主動清掉剛剛掛載的事件
 
@@ -131,19 +130,7 @@ const [$img,hookEvent] = useImg('xxx',()=>{})
 }
 ```
 
-2. 改變掛載事件(not recommended)
-
-```javascript
-
-const [$img,hookEvent] = useImg('xxx',()=>{})
-{
-  hookEvent('error', () => console.log('error'));
-}
-```
-
-這樣會把上一個使用這個事件清除掉並掛載新的事件。
-建議你還是把不同事件分開寫，比較好管理。
-
+2. 讓事件與組件同步卸載
 
 ## Example
 
@@ -151,14 +138,10 @@ const [$img,hookEvent] = useImg('xxx',()=>{})
 import useEventTarget from 'use-event-target';
 const useImage = useEventTarget(new Image());
 const demo = () => {
-  const [$img, hookEvent] = useImage();
-  const getSize = () => {
-    /* code to get image size*/
-    hookEvent(); // -> Explicitly clear this hook event state.
-  };
-  const onClick = () => {
-    hookEvent('load', getSize);
-    $img.src = path;
+
+  const [$img,loadOff] = useImage('load',getSize);
+  function getSize (){
+    loadOff();
   };
   return <button onClick={onClick}> Get Image </button>;
 };
@@ -173,10 +156,9 @@ import useEventTarget from 'use-event-target';
 
 const demo = () => {
   const useFileReader = useEventTarget(new FileReader());
-  const [$reader, hookEvent] = useFileReader();
+  const [$reader, offEvent] = useFileReader('loadend', () => console.log('load end'));
   const onInputChange = e => {
     const files = e.currentTarget.files;
-    hookEvent('loadend', () => console.log('load end'));
     $reader.readAsDataURL(files[0]);
   };
   return (
@@ -187,20 +169,5 @@ const demo = () => {
       placeholder="Upload a Picture"
     />
   );
-};
-```
-
-### useWindow
-
-```javascript
-import useEventTarget from 'use-event-target';
-
-const component = () => {
-  const useWindow = useEventTarget(window);
-  const [_, hookEvent] = useWindow('click', onClick);
-  function onClick = () => {
-    hookEvent('resize', () => console.log('resize trigger'));
-    // After click, hook will clean up `click` event and attach `resize`
-  };
 };
 ```
