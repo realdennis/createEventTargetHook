@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --require babel-core/register __test__/*.js",
-    "build": "microbundle build src/index.js --jsx React.createElement",
-    "prepublish": "npm run build"
+    "build": "microbundle build src/index.js --jsx React.createElement"
   },
   "repository": {
     "type": "git",
