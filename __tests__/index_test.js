@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import useEventTarget from "../src/index.js";
-import TestRenderer from "react-test-renderer";
-import { expect } from "chai";
+import React, { useEffect } from 'react';
+import useEventTarget from '../src/index.js';
+import TestRenderer from 'react-test-renderer';
 
 class FakeDom {
   constructor() {
@@ -26,26 +25,25 @@ class FakeDom {
   }
 }
 
-describe("[Basic Test]", () => {
-  it("TestCase1: mounted and unmounted", done => {
+describe('[Basic Test]', () => {
+  it('TestCase1: mounted and unmounted', done => {
     const testCb = () => {
       return null;
     };
     let testTarget = new FakeDom();
     const TestCase1 = () => {
-      useEventTarget(testTarget)("click", testCb);
+      useEventTarget(testTarget)('click', testCb);
       useEffect(() => {
         //test when mounted
-        expect(testTarget.eventlist.length).equal(1);
-        expect(testTarget.eventlist[0].event).equal("click");
-        expect(testTarget.eventlist[0].callback).equal(testCb);
+        expect(testTarget.eventlist.length).toEqual(1);
+        expect(testTarget.eventlist[0].event).toEqual('click');
+        expect(testTarget.eventlist[0].callback).toEqual(testCb);
       }, []);
       return null;
     };
     let testRenderer = TestRenderer.create(<TestCase1 />);
     testRenderer.unmount();
-    expect(testTarget.eventlist.length).equal(0);
+    expect(testTarget.eventlist.length).toEqual(0);
     done();
   });
 });
-
