@@ -10,7 +10,7 @@
 
 [Demo](https://codesandbox.io/s/j2w4n92219)
 
-讓你無憂憂慮註冊事件，匿名函數也好，不想清理也罷，反正我幫你清掉。
+讓你無憂無慮註冊事件，匿名函數也好，不想清理也罷，反正我幫你清掉。
 One hook for one eventTarget's event.
 
 
@@ -123,10 +123,10 @@ const [$img, loadOff] = useImage('load', () => console.log('load'));
 1. 主動清掉剛剛掛載的事件
 
 ```javascript
-const [$img,hookEvent] = useImg('xxx',()=>{})
+const [$img,offEvent] = useImg('xxx',()=>{})
 // In some condition
 {
-  hookEvent(); //主動把事件清掉
+  offEvent(); //主動把事件清掉
 }
 ```
 
