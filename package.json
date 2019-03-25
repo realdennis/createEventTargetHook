@@ -1,11 +1,11 @@
 {
   "name": "use-event-target",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React hook for EventTarget, Attach event & listener without any side effect.",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "test:watch":"jest --watch",
+    "test:watch": "jest --watch",
     "build": "microbundle build src/index.js --jsx React.createElement"
   },
   "repository": {
