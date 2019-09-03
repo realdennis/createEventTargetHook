@@ -1,6 +1,6 @@
 {
   "name": "create-event-target-hook",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Create react hook of EventTarget, Attach event & listener without any side effect.",
   "main": "dist/index.js",
   "scripts": {
