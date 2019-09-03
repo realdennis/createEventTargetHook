@@ -1,45 +1,45 @@
-# useEventTarget
+# createEventTargetHook
 
-[![GitHub license](https://img.shields.io/github/license/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/blob/master/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/issues)
-[![GitHub stars](https://img.shields.io/github/stars/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/realdennis/useEventTarget.svg)](https://github.com/realdennis/useEventTarget/network)
-[![Build Status](https://travis-ci.org/realdennis/useEventTarget.svg?branch=master)](https://travis-ci.org/realdennis/useEventTarget)
+[![GitHub license](https://img.shields.io/github/license/realdennis/createEventTargetHook.svg)](https://github.com/realdennis/createEventTargetHook/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/realdennis/createEventTargetHook.svg)](https://github.com/realdennis/createEventTargetHook/issues)
+[![GitHub stars](https://img.shields.io/github/stars/realdennis/createEventTargetHook.svg)](https://github.com/realdennis/createEventTargetHook/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/realdennis/createEventTargetHook.svg)](https://github.com/realdennis/createEventTargetHook/network)
+[![Build Status](https://travis-ci.org/realdennis/createEventTargetHook.svg?branch=master)](https://travis-ci.org/realdennis/createEventTargetHook)
 
-### High Order function for hooks of EventTarget 
+### High Order function for hooks of EventTarget
 
 [Demo](https://codesandbox.io/s/j2w4n92219)
 
 讓你無憂無慮註冊事件，匿名函數也好，不想清理也罷，反正我幫你清掉。
 One hook for one eventTarget's event.
 
-
-----
+---
 
 ### 使用高階函數創造毫無副作用的 useResize
 
 ```javascript
 // useResize.js
-import useEventTarget from "use-event-target";
-const useWindow = useEventTarget(window);
+import createEventTargetHook from 'create-event-target-hook';
+const useWindow = createEventTargetHook(window);
 export default callback => {
-  const [$window, resizeOff] = useWindow("resize", callback);
+  const [$window, resizeOff] = useWindow('resize', callback);
   return resizeOff;
 };
-
 ```
+
 Watch this [useResize](https://codesandbox.io/s/73m4z11vp6)
 
 ---
 
 ### 直接在函數組件使用無副作用的事件掛載
+
 ```javascript
-import useEventTarget from 'use-event-target';
-const useImage = useEventTarget(new Image());
-const demo=()=>{
-  useImage('load' , ()=>console.log('image loaded!') , /* Options */);
-  return (<p>I am demo component</p>);
-}
+import createEventTargetHook from 'create-event-target-hook';
+const useImage = createEventTargetHook(new Image());
+const demo = () => {
+  useImage('load', () => console.log('image loaded!') /* Options */);
+  return <p>I am demo component</p>;
+};
 ```
 
 別怕！只會在 mount 那刻註冊。
@@ -49,7 +49,7 @@ API 同註冊事件(`addEventListener`)，但是組件週期卸載後會幫你�
 ## Installation
 
 ```
-$ npm install use-event-target
+$ npm install create-event-target-hook
 ```
 
 ## Compare
@@ -79,10 +79,10 @@ useEffect(() => {
 });
 ```
 
-### 使用 useEventTarget
+### 使用 createEventTargetHook
 
 ```javascript
-const useWindow = useEventTarget(window);
+const useWindow = createEventTargetHook(window);
 //useCustom
 useWindow('click', () => console.log('click'));
 useWindow('resize', () => console.log('resize'));
@@ -90,7 +90,6 @@ useWindow('touch', () => console.log('touch'));
 ```
 
 再看一次 [Demo](https://codesandbox.io/s/j2w4n92219)
-
 
 ## 我做了什麼？
 
@@ -104,7 +103,7 @@ useWindow('touch', () => console.log('touch'));
 
 ## Advanced usage
 
-useEventTarget 主要是丟進去 EventTarget ，並且製造出 customHooks ，這個 customHooks 將回傳一個陣列。
+createEventTargetHook 主要是丟進去 EventTarget ，並且製造出 customHooks ，這個 customHooks 將回傳一個陣列。
 
 我們先假設 useImage 已經製造出來。
 
@@ -123,7 +122,7 @@ const [$img, loadOff] = useImage('load', () => console.log('load'));
 1. 主動清掉剛剛掛載的事件
 
 ```javascript
-const [$img,offEvent] = useImg('xxx',()=>{})
+const [$img, offEvent] = useImg('xxx', () => {});
 // In some condition
 {
   offEvent(); //主動把事件清掉
@@ -135,14 +134,13 @@ const [$img,offEvent] = useImg('xxx',()=>{})
 ## Example
 
 ```javascript
-import useEventTarget from 'use-event-target';
-const useImage = useEventTarget(new Image());
+import createEventTargetHook from 'create-event-target-hook';
+const useImage = createEventTargetHook(new Image());
 const demo = () => {
-
-  const [$img,loadOff] = useImage('load',getSize);
-  function getSize (){
+  const [$img, loadOff] = useImage('load', getSize);
+  function getSize() {
     loadOff();
-  };
+  }
   return <button onClick={onClick}> Get Image </button>;
 };
 ```
@@ -152,11 +150,13 @@ const demo = () => {
 ### useFileReader
 
 ```javascript
-import useEventTarget from 'use-event-target';
+import createEventTargetHook from 'create-event-target-hook';
 
 const demo = () => {
-  const useFileReader = useEventTarget(new FileReader());
-  const [$reader, offEvent] = useFileReader('loadend', () => console.log('load end'));
+  const useFileReader = createEventTargetHook(new FileReader());
+  const [$reader, offEvent] = useFileReader('loadend', () =>
+    console.log('load end')
+  );
   const onInputChange = e => {
     const files = e.currentTarget.files;
     $reader.readAsDataURL(files[0]);

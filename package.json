@@ -1,10 +1,11 @@
 {
-  "name": "use-event-target",
+  "name": "create-event-target-hook",
   "version": "1.2.1",
-  "description": "React hook for EventTarget, Attach event & listener without any side effect.",
+  "description": "Create react hook of EventTarget, Attach event & listener without any side effect.",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint ./src/*.js",
     "test:watch": "jest --watch",
     "build": "microbundle build src/index.js --jsx React.createElement"
   },
@@ -18,26 +19,29 @@
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "@testing-library/react-hooks": "^2.0.1",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.5.0",
     "babel-preset-react": "^6.24.1",
+    "eslint": "^6.3.0",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "jest": "^24.5.0",
     "microbundle": "^0.11.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-test-renderer": "^16.8.5"
+    "react-test-renderer": "^16.9.0"
   },
   "author": "@realdennis",
   "keywords": [
     "react-hooks",
+    "createEventTargetHook",
     "useEvent",
     "useEventTarget",
     "useWindow",
     "useFileReader",
     "react"
   ],
-  "license": "MIT",
-  "dependencies": {
-    "@babel/preset-react": "^7.0.0"
-  }
+  "license": "MIT"
 }
