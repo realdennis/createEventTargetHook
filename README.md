@@ -6,45 +6,9 @@
 [![GitHub forks](https://img.shields.io/github/forks/realdennis/createEventTargetHook.svg)](https://github.com/realdennis/createEventTargetHook/network)
 [![Build Status](https://travis-ci.org/realdennis/createEventTargetHook.svg?branch=master)](https://travis-ci.org/realdennis/createEventTargetHook)
 
-### High Order function for hooks of EventTarget
+### Create hooks of EventTarget and no worry about side effect
 
-[Demo](https://codesandbox.io/s/j2w4n92219)
-
-讓你無憂無慮註冊事件，匿名函數也好，不想清理也罷，反正我幫你清掉。
-One hook for one eventTarget's event.
-
----
-
-### 使用高階函數創造毫無副作用的 useResize
-
-```javascript
-// useResize.js
-import createEventTargetHook from 'create-event-target-hook';
-const useWindow = createEventTargetHook(window);
-export default callback => {
-  const [$window, resizeOff] = useWindow('resize', callback);
-  return resizeOff;
-};
-```
-
-Watch this [useResize](https://codesandbox.io/s/73m4z11vp6)
-
----
-
-### 直接在函數組件使用無副作用的事件掛載
-
-```javascript
-import createEventTargetHook from 'create-event-target-hook';
-const useImage = createEventTargetHook(new Image());
-const demo = () => {
-  useImage('load', () => console.log('image loaded!') /* Options */);
-  return <p>I am demo component</p>;
-};
-```
-
-別怕！只會在 mount 那刻註冊。
-
-API 同註冊事件(`addEventListener`)，但是組件週期卸載後會幫你清掉(`removeEventListener`)。
+Create the hook to register native event like window.addEventListener, and cleanup (remove) automatically.
 
 ## Installation
 
@@ -53,8 +17,7 @@ $ npm install create-event-target-hook
 ```
 
 ## Compare
-
-若你曾經撰寫過與原生事件相關的 React Hooks ，對下面的狀況肯定不陌生：
+If you have use some native event in React, the cleanup show in below is really common
 
 ```javascript
 //useCustom
@@ -79,7 +42,7 @@ useEffect(() => {
 });
 ```
 
-### 使用 createEventTargetHook
+### Using createEventTargetHook
 
 ```javascript
 const useWindow = createEventTargetHook(window);
@@ -89,23 +52,23 @@ useWindow('resize', () => console.log('resize'));
 useWindow('touch', () => console.log('touch'));
 ```
 
-再看一次 [Demo](https://codesandbox.io/s/j2w4n92219)
+[Demo](https://codesandbox.io/s/j2w4n92219)
 
-## 我做了什麼？
+## What did createEventTargetHook do？
 
-1. 首先我用 curry 的方式製造了一個 Custom Hooks，讓你可以在函數組件中使用。
+1. I create a curry function, and make a corresponding custom hooks
 
-2. 我用 useEffect 的 compare array 去設定，只有 mount 的時候會幫你註冊。
+2. Only `addEventListener` when mount, I promise. 
 
-3. 我偷偷把你的 callback 給 reference 了，所以可以清除掉匿名函數。
+3. I keep a reference of the annoymous callback, so I can remove the annoymous listener.
 
-4. 我在 cleanup 裡頭幫你清除掉，而這個 cleanup 會依照你使用這個 custom hook 的組件週期。
+4. The function of cleaning the event listener will follow the hook life-cycle.
 
 ## Advanced usage
 
-createEventTargetHook 主要是丟進去 EventTarget ，並且製造出 customHooks ，這個 customHooks 將回傳一個陣列。
+This customHooks will return an array
 
-我們先假設 useImage 已經製造出來。
+We assume `useImage` has already made. (by `createEventTargetHook`)
 
 ```javascript
 const [$img, loadOff] = useImage('load', () => console.log('load'));
@@ -113,23 +76,23 @@ const [$img, loadOff] = useImage('load', () => console.log('load'));
 
 ### \$img
 
-也就是這個 EventTarget ，有時候我們希望能改變他的屬性。
+`$img` is the EventTarget, sometimes we hope we could modify its attribute.
 
-### hookEvent
+### off
 
-你可以透過 hookEvent 重置你要掛載的事件，用法:
+You can use off to remove listener.
 
-1. 主動清掉剛剛掛載的事件
+1. Remove the event listener initiative.
 
 ```javascript
-const [$img, offEvent] = useImg('xxx', () => {});
+const [$img, off] = useImg('xxx', () => {});
 // In some condition
 {
-  offEvent(); //主動把事件清掉
+  off(); 
 }
 ```
 
-2. 讓事件與組件同步卸載
+2. Remove when something done.
 
 ## Example
 
@@ -151,9 +114,9 @@ const demo = () => {
 
 ```javascript
 import createEventTargetHook from 'create-event-target-hook';
-
+const useFileReader = createEventTargetHook(new FileReader());
+  
 const demo = () => {
-  const useFileReader = createEventTargetHook(new FileReader());
   const [$reader, offEvent] = useFileReader('loadend', () =>
     console.log('load end')
   );
