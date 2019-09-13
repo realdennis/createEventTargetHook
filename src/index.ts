@@ -18,7 +18,8 @@ const createEventTargetHook: createEventTargetHook = Target => {
     useEffect(() => {
       Target.addEventListener(...args);
       return off;
-    }, [args, off]);
+    }, []);
+    // only cleanup when call `off` or component unmount
     return [Target, off];
   };
   return useEventHook;
