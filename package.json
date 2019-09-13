@@ -1,6 +1,6 @@
 {
   "name": "create-event-target-hook",
-  "version": "1.2.2",
+  "version": "1.2.2-beta",
   "description": "Create react hook of EventTarget, Attach event & listener without any side effect.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "microbundle && rm -rf ./.rts2_cache_*",
-    "prepublishOnly": "build"
+    "prepublishOnly": "yarn build"
   },
   "repository": {
     "type": "git",
