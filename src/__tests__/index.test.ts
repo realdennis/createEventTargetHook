@@ -1,12 +1,12 @@
 import createEventTargetHook from '../index';
 import { renderHook } from '@testing-library/react-hooks';
 
-interface callback {
-  (e: Event): void;
+interface EventCallback {
+  (e?: Event): void;
 }
 interface EventInfo {
   eventName: string;
-  callback: callback;
+  callback: EventCallback;
 }
 class EventTarget {
   eventList: EventInfo[];
@@ -16,13 +16,13 @@ class EventTarget {
   resetEventList() {
     this.eventList = [];
   }
-  addEventListener(eventName: string, callback: callback) {
+  addEventListener(eventName: string, callback: EventCallback) {
     this.eventList.push({
       eventName: eventName,
       callback: callback
     });
   }
-  removeEventListener(eventName: string, callback: callback) {
+  removeEventListener(eventName: string, callback: EventCallback) {
     for (let i = 0; i < this.eventList.length; i++) {
       if (
         this.eventList[i].eventName == eventName &&
