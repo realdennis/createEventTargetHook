@@ -39,7 +39,7 @@ useEffect(() => {
     window.removeEventListener('resize', cb2);
     window.removeEventListener('touch', cb3);
   };
-});
+},[]);
 ```
 
 ### Using createEventTargetHook
