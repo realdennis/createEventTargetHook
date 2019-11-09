@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useLayoutEffect, useCallback } from 'react';
 interface EventCallback {
   (e?: Event): void;
 }
@@ -15,7 +15,7 @@ const createEventTargetHook: createEventTargetHook = Target => {
   }
   const useEventHook: useEventTarget = (...args) => {
     const off = useCallback(() => Target.removeEventListener(...args), [args]);
-    useEffect(() => {
+    useLayoutEffect(() => {
       Target.addEventListener(...args);
       return off;
     }, []);
